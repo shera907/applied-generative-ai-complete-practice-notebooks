@@ -36,11 +36,11 @@ Chunking is:
 
 ## 3. Bad Chunking Anti-Patterns
 
-❌ Fixed-size splitting (e.g., every 500 tokens)
-❌ Splitting by characters blindly
-❌ Ignoring document structure
-❌ Mixing unrelated topics in one chunk
-❌ Chunks that are too small or too large
+- ❌ Fixed-size splitting (e.g., every 500 tokens)
+- ❌ Splitting by characters blindly
+- ❌ Ignoring document structure
+- ❌ Mixing unrelated topics in one chunk
+- ❌ Chunks that are too small or too large
 
 ## 4. Why Fixed-Size Chunking Fails
 
@@ -164,6 +164,7 @@ It is **knowledge architecture**.
 
 Treat it with the same care
 as database schema design.
+
 
 
 
