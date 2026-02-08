@@ -1,338 +1,242 @@
-{
- "cells": [
-  {
-   "cell_type": "markdown",
-   "id": "d89d97be",
-   "metadata": {},
-   "source": [
-    "# 🧠 Generative AI — The Mental Model\n",
-    "\n",
-    "This notebook builds the **correct mental model** for Generative AI.\n",
-    "\n",
-    "❌ No hype  \n",
-    "❌ No marketing explanations  \n",
-    "❌ No \"LLMs think like humans\"\n",
-    "\n",
-    "✅ Only what is *actually* happening  \n",
-    "✅ Why GenAI works  \n",
-    "✅ Why it fails  \n",
-    "✅ How engineers should reason about it\n",
-    "\n",
-    "If this mental model is wrong, **every GenAI system built on top will fail silently**.\n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "cabb5195",
-   "metadata": {},
-   "source": [
-    "## 1. What Is Generative AI?\n",
-    "\n",
-    "At its core:\n",
-    "\n",
-    "> **Generative AI is a probabilistic sequence model trained to predict the next token.**\n",
-    "\n",
-    "That is the *entire* capability.\n",
-    "\n",
-    "Everything else:\n",
-    "- reasoning\n",
-    "- memory\n",
-    "- intelligence\n",
-    "- planning\n",
-    "\n",
-    "…is an **emergent illusion**, not a built-in feature.\n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "d44c01dd",
-   "metadata": {},
-   "source": [
-    "## 2. Discriminative vs Generative Models\n",
-    "\n",
-    "### Discriminative Models\n",
-    "They learn to **decide**.\n",
-    "\n",
-    "Mathematically:\n",
-    "P(label | data)\n",
-    "\n",
-    "Examples:\n",
-    "- Spam vs not spam\n",
-    "- Fraud vs non-fraud\n",
-    "- Disease vs no disease\n",
-    "\n",
-    "They do not create new data.\n",
-    "\n",
-    "---\n",
-    "\n",
-    "### Generative Models\n",
-    "They learn to **produce data**.\n",
-    "\n",
-    "Mathematically:\n",
-    "P(data)\n",
-    "\n",
-    "Examples:\n",
-    "- Text\n",
-    "- Images\n",
-    "- Audio\n",
-    "- Code\n",
-    "\n",
-    "They generate new samples that *look like* the training data.\n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "b949d824",
-   "metadata": {},
-   "source": [
-    "## 3. The Only Thing an LLM Can Do\n",
-    "\n",
-    "An LLM can only do one thing:\n",
-    "\n",
-    "> **Predict the next token given previous tokens.**\n",
-    "\n",
-    "It does not:\n",
-    "- know facts\n",
-    "- understand meaning\n",
-    "- reason logically\n",
-    "- verify truth\n",
-    "\n",
-    "It only assigns probabilities.\n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "75890cc9",
-   "metadata": {},
-   "source": [
-    "## 4. Why Probability ≠ Intelligence\n",
-    "\n",
-    "Example:\n",
-    "\"Paris is the capital of ____\"\n",
-    "\n",
-    "The model outputs \"France\" because:\n",
-    "- it has seen \"Paris → capital → France\" frequently\n",
-    "- the probability is high\n",
-    "\n",
-    "Not because it understands geography.\n",
-    "\n",
-    "---\n",
-    "\n",
-    "### Key Insight\n",
-    "\n",
-    "If training data changes,\n",
-    "the \"knowledge\" changes.\n",
-    "\n",
-    "That is not intelligence.\n",
-    "That is statistics.\n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "713fe892",
-   "metadata": {},
-   "source": [
-    "## 5. Tokens — The Atomic Unit of Language Models\n",
-    "\n",
-    "LLMs do not read words.\n",
-    "They read **tokens**.\n",
-    "\n",
-    "Examples:\n",
-    "- \"apple\" → 1 token\n",
-    "- \"ChatGPT\" → 2 tokens\n",
-    "- \"unbelievable\" → un + believe + able\n",
-    "\n",
-    "### Why This Matters\n",
-    "- Billing is token-based\n",
-    "- Context limits are token-based\n",
-    "- Latency scales with token count\n",
-    "\n",
-    "Tokens are **money + time**.\n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "611a6fea",
-   "metadata": {},
-   "source": [
-    "## 6. Embeddings — Meaning as Geometry\n",
-    "\n",
-    "An embedding is:\n",
-    "> A point in high-dimensional space\n",
-    "\n",
-    "Similar meanings → closer points  \n",
-    "Different meanings → distant points  \n",
-    "\n",
-    "Examples:\n",
-    "- king ≈ queen\n",
-    "- Paris ≈ France\n",
-    "- doctor ≈ hospital\n",
-    "\n",
-    "The model does not \"understand\".\n",
-    "It measures **distance**.\n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "ffd47efd",
-   "metadata": {},
-   "source": [
-    "## 7. Context Window — The Only Memory LLMs Have\n",
-    "\n",
-    "LLMs have **no memory**.\n",
-    "\n",
-    "They only see:\n",
-    "- the current prompt\n",
-    "- within the context window\n",
-    "\n",
-    "If information falls outside the context window:\n",
-    "- it is forgotten completely\n",
-    "\n",
-    "---\n",
-    "\n",
-    "### Critical Rule\n",
-    "\n",
-    "> Context is not history.  \n",
-    "> Context is working memory.\n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "57567620",
-   "metadata": {},
-   "source": [
-    "## 8. Why LLMs Hallucinate\n",
-    "\n",
-    "Hallucination is not a bug.\n",
-    "\n",
-    "It happens because:\n",
-    "1. The model is forced to answer\n",
-    "2. It has no truth-checking mechanism\n",
-    "3. It must output *something*\n",
-    "\n",
-    "When uncertain, it chooses:\n",
-    "> The most probable-sounding continuation\n",
-    "\n",
-    "---\n",
-    "\n",
-    "### Important Truth\n",
-    "\n",
-    "LLMs prefer:\n",
-    "- confident answers\n",
-    "over\n",
-    "- admitting uncertainty\n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "50abdff7",
-   "metadata": {},
-   "source": [
-    "## 9. The Illusion Stack\n",
-    "\n",
-    "What users think:\n",
-    "- The model reasons\n",
-    "- The model remembers\n",
-    "- The model understands\n",
-    "\n",
-    "What actually happens:\n",
-    "- Probability chaining\n",
-    "- Context pattern matching\n",
-    "- Statistical continuation\n",
-    "\n",
-    "---\n",
-    "\n",
-    "### Golden Rule (Tattoo This)\n",
-    "\n",
-    "> **LLMs predict the next token.  \n",
-    "Everything else is illusion.**\n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "fd4cd91d",
-   "metadata": {},
-   "source": [
-    "## 10. Engineering Implications\n",
-    "\n",
-    "Because of this mental model:\n",
-    "\n",
-    "❌ Prompting cannot fix missing knowledge  \n",
-    "❌ Bigger models do not guarantee truth  \n",
-    "❌ Long context is not memory  \n",
-    "❌ Fluency is not correctness  \n",
-    "\n",
-    "✅ Retrieval must provide truth  \n",
-    "✅ Systems must verify outputs  \n",
-    "✅ Constraints must be enforced outside the model  \n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "46b82fe2",
-   "metadata": {},
-   "source": [
-    "## Final Mental Model\n",
-    "\n",
-    "Think of an LLM as:\n",
-    "\n",
-    "> A very powerful autocomplete engine  \n",
-    "> trained on massive text  \n",
-    "> that predicts what usually comes next  \n",
-    "\n",
-    "Use it as:\n",
-    "- a language interface\n",
-    "- a reasoning assistant\n",
-    "- a pattern generator\n",
-    "\n",
-    "Never use it as:\n",
-    "- a database\n",
-    "- a decision authority\n",
-    "- a source of truth\n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "246a4e71",
-   "metadata": {},
-   "source": [
-    "## Self-Check\n",
-    "\n",
-    "You understand this notebook if you can explain:\n",
-    "\n",
-    "- Why hallucinations are inevitable\n",
-    "- Why RAG exists\n",
-    "- Why prompting is limited\n",
-    "- Why GenAI systems fail silently\n",
-    "- Why architecture matters more than models\n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "faafba3b",
-   "metadata": {},
-   "source": [
-    "This mental model will be reused in:\n",
-    "\n",
-    "- RAG systems\n",
-    "- Agent design\n",
-    "- Evaluation & guardrails\n",
-    "- LLMOps\n",
-    "- Platform architecture\n",
-    "\n",
-    "If this model is correct,\n",
-    "your systems will be correct.\n",
-    "\n",
-    "If this model is wrong,\n",
-    "everything else collapses.\n"
-   ]
-  }
- ],
- "metadata": {
-  "language_info": {
-   "name": "python"
-  }
- },
- "nbformat": 4,
- "nbformat_minor": 5
-}
+# 🧠 Generative AI — The Mental Model
+
+This notebook builds the **correct mental model** for Generative AI.
+
+❌ No hype  
+❌ No marketing explanations  
+❌ No "LLMs think like humans"
+
+✅ Only what is *actually* happening  
+✅ Why GenAI works  
+✅ Why it fails  
+✅ How engineers should reason about it
+
+If this mental model is wrong, **every GenAI system built on top will fail silently**.
+
+## 1. What Is Generative AI?
+
+At its core:
+
+> **Generative AI is a probabilistic sequence model trained to predict the next token.**
+
+That is the *entire* capability.
+
+Everything else:
+- reasoning
+- memory
+- intelligence
+- planning
+
+…is an **emergent illusion**, not a built-in feature.
+
+## 2. Discriminative vs Generative Models
+
+### Discriminative Models
+They learn to **decide**.
+
+Mathematically:
+P(label | data)
+
+Examples:
+- Spam vs not spam
+- Fraud vs non-fraud
+- Disease vs no disease
+
+They do not create new data.
+
+---
+
+### Generative Models
+They learn to **produce data**.
+
+Mathematically:
+P(data)
+
+Examples:
+- Text
+- Images
+- Audio
+- Code
+
+They generate new samples that *look like* the training data.
+
+## 3. The Only Thing an LLM Can Do
+
+An LLM can only do one thing:
+
+> **Predict the next token given previous tokens.**
+
+It does not:
+- know facts
+- understand meaning
+- reason logically
+- verify truth
+
+It only assigns probabilities.
+
+## 4. Why Probability ≠ Intelligence
+
+Example:
+"Paris is the capital of ____"
+
+The model outputs "France" because:
+- it has seen "Paris → capital → France" frequently
+- the probability is high
+
+Not because it understands geography.
+
+---
+
+### Key Insight
+
+If training data changes,
+the "knowledge" changes.
+
+That is not intelligence.
+That is statistics.
+
+## 5. Tokens — The Atomic Unit of Language Models
+
+LLMs do not read words.
+They read **tokens**.
+
+Examples:
+- "apple" → 1 token
+- "ChatGPT" → 2 tokens
+- "unbelievable" → un + believe + able
+
+### Why This Matters
+- Billing is token-based
+- Context limits are token-based
+- Latency scales with token count
+
+Tokens are **money + time**.
+
+## 6. Embeddings — Meaning as Geometry
+
+An embedding is:
+> A point in high-dimensional space
+
+Similar meanings → closer points  
+Different meanings → distant points  
+
+Examples:
+- king ≈ queen
+- Paris ≈ France
+- doctor ≈ hospital
+
+The model does not "understand".
+It measures **distance**.
+
+## 7. Context Window — The Only Memory LLMs Have
+
+LLMs have **no memory**.
+
+They only see:
+- the current prompt
+- within the context window
+
+If information falls outside the context window:
+- it is forgotten completely
+
+---
+
+### Critical Rule
+
+> Context is not history.  
+> Context is working memory.
+
+## 8. Why LLMs Hallucinate
+
+Hallucination is not a bug.
+
+It happens because:
+1. The model is forced to answer
+2. It has no truth-checking mechanism
+3. It must output *something*
+
+When uncertain, it chooses:
+> The most probable-sounding continuation
+
+---
+
+### Important Truth
+
+LLMs prefer:
+- confident answers
+over
+- admitting uncertainty
+
+## 9. The Illusion Stack
+
+What users think:
+- The model reasons
+- The model remembers
+- The model understands
+
+What actually happens:
+- Probability chaining
+- Context pattern matching
+- Statistical continuation
+
+---
+
+### Golden Rule (Tattoo This)
+
+> **LLMs predict the next token.  
+Everything else is illusion.**
+
+## 10. Engineering Implications
+
+Because of this mental model:
+
+❌ Prompting cannot fix missing knowledge  
+❌ Bigger models do not guarantee truth  
+❌ Long context is not memory  
+❌ Fluency is not correctness  
+
+✅ Retrieval must provide truth  
+✅ Systems must verify outputs  
+✅ Constraints must be enforced outside the model  
+
+## Final Mental Model
+
+Think of an LLM as:
+
+> A very powerful autocomplete engine  
+> trained on massive text  
+> that predicts what usually comes next  
+
+Use it as:
+- a language interface
+- a reasoning assistant
+- a pattern generator
+
+Never use it as:
+- a database
+- a decision authority
+- a source of truth
+
+## Self-Check
+
+You understand this notebook if you can explain:
+
+- Why hallucinations are inevitable
+- Why RAG exists
+- Why prompting is limited
+- Why GenAI systems fail silently
+- Why architecture matters more than models
+
+This mental model will be reused in:
+
+- RAG systems
+- Agent design
+- Evaluation & guardrails
+- LLMOps
+- Platform architecture
+
+If this model is correct,
+your systems will be correct.
+
+If this model is wrong,
+everything else collapses.
