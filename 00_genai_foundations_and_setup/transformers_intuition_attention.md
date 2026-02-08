@@ -1,315 +1,201 @@
-{
- "cells": [
-  {
-   "cell_type": "markdown",
-   "id": "811a1293",
-   "metadata": {},
-   "source": [
-    "# 🧠 Transformers — Intuition First\n",
-    "\n",
-    "This notebook explains **why Transformers work**, not how to code them.\n",
-    "\n",
-    "You will understand:\n",
-    "- Why attention matters\n",
-    "- What Q, K, V really mean\n",
-    "- Why order must be injected (positional encoding)\n",
-    "- Why transformers replaced RNNs\n",
-    "- What transformers are good and bad at\n",
-    "\n",
-    "If this intuition is missing,\n",
-    "LLMs feel like magic instead of machinery.\n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "4c4d0313",
-   "metadata": {},
-   "source": [
-    "## 1. The Pre-Transformer Problem\n",
-    "\n",
-    "Before transformers, models processed language:\n",
-    "- word by word\n",
-    "- step by step\n",
-    "- in strict sequence\n",
-    "\n",
-    "This caused:\n",
-    "- slow training\n",
-    "- weak long-range memory\n",
-    "- vanishing context\n",
-    "\n",
-    "Language is global.\n",
-    "Sequential models were local.\n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "5a256d93",
-   "metadata": {},
-   "source": [
-    "## 2. Language Is Not Local\n",
-    "\n",
-    "Consider the sentence:\n",
-    "\n",
-    "\"The animal didn’t cross the street because it was too tired.\"\n",
-    "\n",
-    "What does \"it\" refer to?\n",
-    "\n",
-    "To answer this:\n",
-    "- the model must look across the sentence\n",
-    "- not just the last word\n",
-    "\n",
-    "Language requires **global dependency tracking**.\n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "b1b72330",
-   "metadata": {},
-   "source": [
-    "## 3. The Transformer Idea\n",
-    "\n",
-    "The key idea of transformers:\n",
-    "\n",
-    "> **Let every token look at every other token directly.**\n",
-    "\n",
-    "No waiting.\n",
-    "No sequence bottleneck.\n",
-    "No memory decay.\n",
-    "\n",
-    "This is called **attention**.\n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "8ad6584d",
-   "metadata": {},
-   "source": [
-    "## 4. Attention: The Core Mechanism\n",
-    "\n",
-    "Attention answers one question:\n",
-    "\n",
-    "> \"Which other tokens matter most for this token right now?\"\n",
-    "\n",
-    "Each token dynamically decides:\n",
-    "- what to focus on\n",
-    "- how much to weigh other tokens\n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "f49ba78b",
-   "metadata": {},
-   "source": [
-    "## 5. Q, K, V — Intuition (Not Math)\n",
-    "\n",
-    "Every token creates three vectors:\n",
-    "\n",
-    "- Query (Q): What am I looking for?\n",
-    "- Key (K): What do I offer?\n",
-    "- Value (V): What information do I carry?\n",
-    "\n",
-    "Attention works by:\n",
-    "- matching Queries to Keys\n",
-    "- pulling the corresponding Values\n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "e6062ddc",
-   "metadata": {},
-   "source": [
-    "### Analogy: Search Engine\n",
-    "\n",
-    "- Query → your search query\n",
-    "- Keys → document titles\n",
-    "- Values → document content\n",
-    "\n",
-    "Best match → most attention\n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "8d6e7eec",
-   "metadata": {},
-   "source": [
-    "## 6. Self-Attention vs Cross-Attention\n",
-    "\n",
-    "### Self-Attention\n",
-    "- Tokens attend to tokens in the same sequence\n",
-    "- Used in encoders and decoders\n",
-    "\n",
-    "### Cross-Attention\n",
-    "- Tokens attend to a different sequence\n",
-    "- Used when combining:\n",
-    "  - text + image\n",
-    "  - prompt + retrieved context\n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "945a16de",
-   "metadata": {},
-   "source": [
-    "## 7. Why Order Is Not Automatic\n",
-    "\n",
-    "Transformers see tokens **all at once**.\n",
-    "\n",
-    "This means:\n",
-    "- no inherent notion of sequence\n",
-    "- no concept of \"before\" or \"after\"\n",
-    "\n",
-    "Without help:\n",
-    "> \"dog bites man\" = \"man bites dog\"\n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "a5483b8d",
-   "metadata": {},
-   "source": [
-    "## 8. Positional Encoding\n",
-    "\n",
-    "Positional encoding:\n",
-    "- injects position information into tokens\n",
-    "- tells the model where a token sits in the sequence\n",
-    "\n",
-    "This restores:\n",
-    "- word order\n",
-    "- sentence structure\n",
-    "- temporal meaning\n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "5af08398",
-   "metadata": {},
-   "source": [
-    "## 9. Why Transformers Replaced RNNs\n",
-    "\n",
-    "Transformers:\n",
-    "- process tokens in parallel\n",
-    "- capture long-range dependencies\n",
-    "- scale efficiently on GPUs\n",
-    "- maintain global context\n",
-    "\n",
-    "RNNs:\n",
-    "- process sequentially\n",
-    "- forget long contexts\n",
-    "- train slowly\n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "6465e462",
-   "metadata": {},
-   "source": [
-    "## 10. What Transformers Are Bad At\n",
-    "\n",
-    "Transformers struggle with:\n",
-    "- long-term memory\n",
-    "- exact counting\n",
-    "- strict logic\n",
-    "- causal reasoning\n",
-    "- real-world grounding\n",
-    "\n",
-    "They are pattern matchers, not reasoners.\n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "0ac71e97",
-   "metadata": {},
-   "source": [
-    "## 11. Attention ≠ Understanding\n",
-    "\n",
-    "Attention:\n",
-    "- highlights correlations\n",
-    "- strengthens signal flow\n",
-    "\n",
-    "It does NOT:\n",
-    "- verify truth\n",
-    "- understand meaning\n",
-    "- ensure correctness\n",
-    "\n",
-    "Attention improves fluency,\n",
-    "not intelligence.\n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "e7968218",
-   "metadata": {},
-   "source": [
-    "## 12. Engineering Implications\n",
-    "\n",
-    "Because of attention-based transformers:\n",
-    "\n",
-    "❌ Do not assume logical correctness  \n",
-    "❌ Do not assume memory beyond context  \n",
-    "❌ Do not assume reasoning guarantees  \n",
-    "\n",
-    "✅ Use retrieval for knowledge  \n",
-    "✅ Use rules for constraints  \n",
-    "✅ Use verification for trust  \n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "93ea7789",
-   "metadata": {},
-   "source": [
-    "## Final Mental Model\n",
-    "\n",
-    "Transformers are:\n",
-    "\n",
-    "> Global pattern-matching engines  \n",
-    "> powered by attention  \n",
-    "> operating entirely within a context window\n",
-    "\n",
-    "They are excellent at:\n",
-    "- language\n",
-    "- pattern completion\n",
-    "- synthesis\n",
-    "\n",
-    "They are weak at:\n",
-    "- truth\n",
-    "- memory\n",
-    "- causality\n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "e157d7d2",
-   "metadata": {},
-   "source": [
-    "## Self-Check\n",
-    "\n",
-    "You understand transformers if you can explain:\n",
-    "\n",
-    "- Why attention enables global context\n",
-    "- Why Q, K, V exist\n",
-    "- Why order must be injected\n",
-    "- Why transformers hallucinate confidently\n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "00cea385",
-   "metadata": {},
-   "source": [
-    "Transformers changed AI not because they think,\n",
-    "but because they scale pattern recognition.\n",
-    "\n",
-    "Everything powerful—and dangerous—about GenAI\n",
-    "flows from this architecture.\n"
-   ]
-  }
- ],
- "metadata": {
-  "language_info": {
-   "name": "python"
-  }
- },
- "nbformat": 4,
- "nbformat_minor": 5
-}
+# 🧠 Transformers — Intuition First
+
+This notebook explains **why Transformers work**, not how to code them.
+
+You will understand:
+- Why attention matters
+- What Q, K, V really mean
+- Why order must be injected (positional encoding)
+- Why transformers replaced RNNs
+- What transformers are good and bad at
+
+If this intuition is missing,
+LLMs feel like magic instead of machinery.
+
+## 1. The Pre-Transformer Problem
+
+Before transformers, models processed language:
+- word by word
+- step by step
+- in strict sequence
+
+This caused:
+- slow training
+- weak long-range memory
+- vanishing context
+
+Language is global.
+Sequential models were local.
+
+## 2. Language Is Not Local
+
+Consider the sentence:
+
+"The animal didn’t cross the street because it was too tired."
+
+What does "it" refer to?
+
+To answer this:
+- the model must look across the sentence
+- not just the last word
+
+Language requires **global dependency tracking**.
+
+## 3. The Transformer Idea
+
+The key idea of transformers:
+
+> **Let every token look at every other token directly.**
+
+No waiting.
+No sequence bottleneck.
+No memory decay.
+
+This is called **attention**.
+
+## 4. Attention: The Core Mechanism
+
+Attention answers one question:
+
+> "Which other tokens matter most for this token right now?"
+
+Each token dynamically decides:
+- what to focus on
+- how much to weigh other tokens
+
+## 5. Q, K, V — Intuition (Not Math)
+
+Every token creates three vectors:
+
+- Query (Q): What am I looking for?
+- Key (K): What do I offer?
+- Value (V): What information do I carry?
+
+Attention works by:
+- matching Queries to Keys
+- pulling the corresponding Values
+
+### Analogy: Search Engine
+
+- Query → your search query
+- Keys → document titles
+- Values → document content
+
+Best match → most attention
+
+## 6. Self-Attention vs Cross-Attention
+
+### Self-Attention
+- Tokens attend to tokens in the same sequence
+- Used in encoders and decoders
+
+### Cross-Attention
+- Tokens attend to a different sequence
+- Used when combining:
+  - text + image
+  - prompt + retrieved context
+
+## 7. Why Order Is Not Automatic
+
+Transformers see tokens **all at once**.
+
+This means:
+- no inherent notion of sequence
+- no concept of "before" or "after"
+
+Without help:
+> "dog bites man" = "man bites dog"
+
+## 8. Positional Encoding
+
+Positional encoding:
+- injects position information into tokens
+- tells the model where a token sits in the sequence
+
+This restores:
+- word order
+- sentence structure
+- temporal meaning
+
+## 9. Why Transformers Replaced RNNs
+
+Transformers:
+- process tokens in parallel
+- capture long-range dependencies
+- scale efficiently on GPUs
+- maintain global context
+
+RNNs:
+- process sequentially
+- forget long contexts
+- train slowly
+
+## 10. What Transformers Are Bad At
+
+Transformers struggle with:
+- long-term memory
+- exact counting
+- strict logic
+- causal reasoning
+- real-world grounding
+
+They are pattern matchers, not reasoners.
+
+## 11. Attention ≠ Understanding
+
+Attention:
+- highlights correlations
+- strengthens signal flow
+
+It does NOT:
+- verify truth
+- understand meaning
+- ensure correctness
+
+Attention improves fluency,
+not intelligence.
+
+## 12. Engineering Implications
+
+Because of attention-based transformers:
+
+❌ Do not assume logical correctness  
+❌ Do not assume memory beyond context  
+❌ Do not assume reasoning guarantees  
+
+✅ Use retrieval for knowledge  
+✅ Use rules for constraints  
+✅ Use verification for trust  
+
+## Final Mental Model
+
+Transformers are:
+
+> Global pattern-matching engines  
+> powered by attention  
+> operating entirely within a context window
+
+They are excellent at:
+- language
+- pattern completion
+- synthesis
+
+They are weak at:
+- truth
+- memory
+- causality
+
+## Self-Check
+
+You understand transformers if you can explain:
+
+- Why attention enables global context
+- Why Q, K, V exist
+- Why order must be injected
+- Why transformers hallucinate confidently
+
+Transformers changed AI not because they think,
+but because they scale pattern recognition.
+
+Everything powerful—and dangerous—about GenAI
+flows from this architecture.
