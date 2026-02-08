@@ -1,0 +1,114 @@
+# =========================================
+# OS / Editor junk
+# =========================================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tmp
+
+# =========================================
+# Python
+# =========================================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+.env
+.venv/
+venv/
+env/
+
+# =========================================
+# Jupyter / IPython
+# =========================================
+.ipynb_checkpoints/
+.profile_default/
+.ipython/
+
+# =========================================
+# Logs & runtime artifacts
+# =========================================
+logs/
+*.log
+
+# =========================================
+# GenAI / LLM artifacts (DO NOT COMMIT)
+# =========================================
+# Embeddings / vector stores
+vectorstore/
+vector_store/
+faiss_index/
+chroma/
+milvus/
+weaviate/
+
+# Cached LLM responses
+.llm_cache/
+.cache/
+huggingface/
+hf_cache/
+
+# =========================================
+# Model weights & checkpoints
+# =========================================
+models/
+checkpoints/
+*.pt
+*.pth
+*.onnx
+*.bin
+*.safetensors
+
+# =========================================
+# Data (keep raw data OUT unless intentional)
+# =========================================
+data/
+datasets/
+*.csv
+*.tsv
+*.parquet
+*.arrow
+
+# Allow small sample data explicitly
+!data/sample_*
+!datasets/sample_*
+
+# =========================================
+# Experiment tracking
+# =========================================
+wandb/
+mlruns/
+tensorboard/
+runs/
+
+# =========================================
+# Build / export
+# =========================================
+dist/
+build/
+*.egg-info/
+
+# =========================================
+# Secrets & credentials (CRITICAL)
+# =========================================
+*.key
+*.pem
+*.crt
+*.env.*
+secrets/
+credentials/
+config/secrets.*
+
+# =========================================
+# OS archives
+# =========================================
+*.zip
+*.tar
+*.gz
+*.7z
