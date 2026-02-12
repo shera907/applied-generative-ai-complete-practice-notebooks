@@ -34,10 +34,10 @@ Guessing = increased hallucination risk.
 
 ## 3. Vague Instruction Examples
 
-❌ "Explain this clearly."
-❌ "Give a detailed answer."
-❌ "Make it professional."
-❌ "Summarize everything."
+- ❌ "Explain this clearly."
+- ❌ "Give a detailed answer."
+- ❌ "Make it professional."
+- ❌ "Summarize everything."
 
 These instructions:
 - lack scope
