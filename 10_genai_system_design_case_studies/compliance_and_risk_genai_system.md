@@ -211,29 +211,16 @@ The compliance system integrates with:
 
 Compliance is core infrastructure.
 
-## 13. Integration Points
+## 14. Alert Strategy
 
-The compliance system integrates with:
+Avoid:
+- alerting on single minor events
+- noisy threshold triggers
 
-- Model Gateway
-- Policy Engine
-- RAG Retrieval Layer
-- Tool Execution Layer
-- Observability Stack
-
-Compliance is core infrastructure.
-
-## 15. Defensibility Questions
-
-Be prepared to answer:
-
-- How do you detect hallucinations?
-- How do you prevent data leakage?
-- How do you monitor drift?
-- How do you audit past outputs?
-- Who approves high-risk actions?
-
-Your system must answer these with logs.
+Prefer:
+- trend-based alerts
+- anomaly detection
+- cumulative risk scoring
 
 ## 15. Defensibility Questions
 
@@ -246,6 +233,20 @@ Be prepared to answer:
 - Who approves high-risk actions?
 
 Your system must answer these with logs.
+
+## Final Mental Lock
+
+GenAI risk is not static.
+
+It is emergent behavior across:
+- prompts
+- models
+- tools
+- users
+- data
+
+The compliance system watches the system,
+not just individual outputs.
 
 You understand this notebook if you can explain:
 
@@ -260,3 +261,4 @@ Trust in GenAI does not come from intelligence.
 It comes from visibility,
 accountability,
 and controlled risk.
+
